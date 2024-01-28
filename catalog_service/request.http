@@ -1,0 +1,9 @@
+POST http://localhost:8000/products
+Content-Type: application/json
+
+{
+    "name":"iMac",
+    "description":"A desktop",
+    "stock":100,
+    "price":1600
+}
