@@ -55,8 +55,7 @@ router.get('/products/:product_id', async (req: Request, res: Response, next: Ne
         return res.status(200).json(data);
     }
     catch (err) {
-        const error = err as Error;
-        return res.status(500).json(error.message)
+        next(err);
     }
 })
 

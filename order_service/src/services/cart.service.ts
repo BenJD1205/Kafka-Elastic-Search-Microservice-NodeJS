@@ -1,6 +1,12 @@
+import { CartRequestInput } from "src/dto/cartRequest.dto"
 import { CartRepositoryType } from "src/types/repository.type"
+import { GetProductDetails, NotFoundError } from "../utils"
 
-export const CreateCart = async (input: any, repo: CartRepositoryType) => {
+export const CreateCart = async (input: CartRequestInput, repo: CartRepositoryType) => {
+    const product = await GetProductDetails(input.productId)
+    if (product.stock < input.qty) {
+        throw new NotFoundError("product is out of stock")
+    }
     const data = await repo.create(input)
     return data
 }
