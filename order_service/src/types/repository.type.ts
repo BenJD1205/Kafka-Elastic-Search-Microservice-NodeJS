@@ -1,11 +1,9 @@
-type Create = (input: any) => Promise<{}>
-type Find = (input: any) => Promise<{}>
-type Update = (input: any) => Promise<{}>
-type Delete = (input: any) => Promise<{}>
+import { Cart, CartLineItem, carts } from "src/db/schema"
 
 export type CartRepositoryType = {
-    create: Create
-    find: Find
-    update: Update
-    delete: Delete
+    createCart: (customerId: number, lineItem: CartLineItem) => Promise<number>;
+    findCart: (id: number) => Promise<Cart>;
+    updateCart: (id: number, qty: number) => Promise<CartLineItem>;
+    deleteCart: (id: number) => Promise<Boolean>;
+    clearCartData: (id: number) => Promise<Boolean>;
 }
