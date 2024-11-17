@@ -15,6 +15,13 @@
       "when": 1720863334012,
       "tag": "0001_awesome_wrecker",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1731734317484,
+      "tag": "0002_lowly_bedlam",
+      "breakpoints": true
     }
   ]
 }
