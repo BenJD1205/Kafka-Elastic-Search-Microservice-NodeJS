@@ -3,7 +3,7 @@ export interface OrderLineItemType {
     productId: number;
     itemName: string;
     qty: number;
-    price: number;
+    price: string;
     orderId: number;
 
     createdAt: Date;
@@ -13,11 +13,11 @@ export interface OrderLineItemType {
 export interface OrderWithLineItems {
     id?: number;
     customerId: number;
-    orderId: number;
+    orderNumber: number;
     txnId: string | null;
     amount: string;
     status: string;
-    orderItems: any[];
+    orderItems: OrderLineItemType[];
     createdAt?: Date;
     updatedAt?: Date;
 }

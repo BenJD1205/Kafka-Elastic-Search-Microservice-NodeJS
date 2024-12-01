@@ -1,7 +1,7 @@
 import express, { Request, Response, NextFunction } from 'express'
 import * as services from '../services/order.service'
 import { MessageBroker } from './../utils';
-import { OrderEvent } from '../types';
+import { OrderEvent, OrderStatus } from '../types';
 import { OrderRepository } from 'src/repository/order.repository';
 import { CartRepository } from 'src/repository';
 
@@ -56,7 +56,7 @@ router.patch("/orders/:id", async (req: Request, res: Response, next: NextFuncti
     const user = req.user;
     if (!user) return next(new Error("User not found"));
     const orderId = parseInt(req.params.id);
-    const status = req.body.status;
+    const status = req.body.status as OrderStatus;
     const response = await services.UpdateOrder(orderId, status, repo);
     return res.status(201).json(response);
 })

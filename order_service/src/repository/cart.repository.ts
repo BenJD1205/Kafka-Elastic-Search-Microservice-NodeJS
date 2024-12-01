@@ -46,7 +46,7 @@ const findCart = async (id: number): Promise<CartWithLineItems> => {
         throw new NotFoundError("cart not found");
     }
 
-    return cart;
+    return cart as unknown as CartWithLineItems;
 };
 
 const updateCart = async (id: number, qty: number): Promise<CartLineItem> => {

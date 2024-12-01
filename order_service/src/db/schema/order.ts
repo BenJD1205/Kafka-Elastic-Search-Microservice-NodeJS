@@ -6,8 +6,8 @@ export const orders = pgTable("carts", {
     orderNumber: integer("order_number").notNull().unique(),
     customerId: integer("customer_id").notNull(),
     amount: numeric("amount").notNull(),
-    status: varchar("status").notNull(),
-    txnId: varchar("txn_id").notNull(),
+    status: varchar("status").default("pending"),
+    txnId: varchar("txn_id"),
     createdAt: timestamp("created_at").notNull().defaultNow(),
     updatedAt: timestamp("updated_at").notNull().defaultNow(),
 })

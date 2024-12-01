@@ -4,7 +4,7 @@ import { BROKERS, CLIENT_ID, GROUP_ID } from "../../config";
 import { MessageType, OrderEvent, TOPIC_TYPE } from "../../types";
 
 const kafka = new Kafka({
-    clientId: CLIENT_ID,
+    clientId: CLIENT_ID || "",
     brokers: BROKERS,
     logLevel: logLevel.INFO
 });
