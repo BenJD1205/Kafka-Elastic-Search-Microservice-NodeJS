@@ -7,7 +7,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
 
 const createPayment = async (
     amount: number,
-    metadata: { orderId: number, userId: number }
+    metadata: { orderNumber: number, userId: number }
 ): Promise<{ secret: string, pubKey: string, amount: number }> => {
     const paymentIntent = await stripe.paymentIntents.create({
         amount,
@@ -24,7 +24,8 @@ const createPayment = async (
 const getPayment = async (paymentId: string): Promise<Record<string, unknown>> => {
     const paymentResponse = await stripe.paymentIntents.retrieve(paymentId, {});
     const { status } = paymentResponse;
-    return { status, paymentLog: paymentResponse }
+    const orderNumber = paymentResponse?.metadata["orderNumber"]
+    return { status, orderNumber, paymentLog: paymentResponse }
 }
 
 export const StripePayment: PaymentGateway = {

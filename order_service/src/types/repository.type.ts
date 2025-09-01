@@ -14,6 +14,7 @@ export type CartRepositoryType = {
 export type OrderRepositoryType = {
     createOrder: (lineItem: OrderWithLineItems) => Promise<number>;
     findOrder: (id: number) => Promise<OrderWithLineItems | null>;
+    findOrderByOrderNumber: (orderNumber: number) => Promise<OrderWithLineItems | null>;
     updateOrder: (id: number, status: string) => Promise<OrderWithLineItems>;
     deleteOrder: (id: number) => Promise<boolean>;
     findOrdersByCustomerId: (customerId: number) => Promise<OrderWithLineItems[]>;

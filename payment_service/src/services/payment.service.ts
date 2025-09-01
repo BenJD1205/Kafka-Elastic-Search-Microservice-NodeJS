@@ -1,6 +1,7 @@
 import { PaymentGateway } from './../types';
 import { GetOrderDetails } from "../utils";
 import { MessageType } from "../types";
+import { SendPaymentUpdateMessage } from './broker.service';
 
 export const CreatePayment = async (userId: number, orderId: number, paymentGateway: PaymentGateway) => {
     //get order details from order service
@@ -10,21 +11,42 @@ export const CreatePayment = async (userId: number, orderId: number, paymentGate
     }
 
     //create a new payment record
+    const amountInCents = order.amount * 100;
+    const orderMetaData = {
+        orderNumber: order.orderNumber,
+        userId: userId,
+    }
 
     //call payment gateway to create payment
+    const paymentResponse = await paymentGateway.createPayment(
+        amountInCents,
+        orderMetaData,
+    )
 
     //return payment secrets
     return {
-        secret: "my super secret",
-        pubKey: "my super public key",
+        secret: paymentResponse.secret,
+        pubKey: paymentResponse.pubKey,
         amount: 100,
+        order: order,
     }
 }
 
-export const VerifyPayment = async (paymentId: string, paymentGateway: unknown) => {
-    //call payment Gateway to verify payment
+export const VerifyPayment = async (paymentId: string, paymentGateway: PaymentGateway) => {
+    const paymentResponse = await paymentGateway.getPayment(paymentId);
+
     //update order status through message broker
-    //return payment status <= not necessary just for response to frontend
+
+    await SendPaymentUpdateMessage({
+        orderNumber: paymentResponse.orderNumber,
+        status: paymentResponse.status,
+        paymentLog: paymentResponse.paymentLog,
+    })
+    return {
+        message: "Payment verified",
+        status: paymentResponse.status,
+        paymentLog: paymentResponse.paymentLog,
+    }
 }
 
 export const HandleSubscription = async (message: MessageType) => { }

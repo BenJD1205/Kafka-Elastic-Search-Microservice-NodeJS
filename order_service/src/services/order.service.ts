@@ -1,6 +1,8 @@
+import { InProcessOrder } from './../../../payment_service/src/dto/order.model';
 import { OrderLineItemType, OrderWithLineItems } from "src/dto/orderRequest.dto"
 import { CartRepositoryType, MessageType, OrderRepositoryType, OrderStatus } from "src/types"
 import { SendCreateOrderMessage } from "./broker.service";
+import { OrderRepository } from "src/repository";
 
 export const CreateOrder = async (userId: number, repo: OrderRepositoryType, cartRepo: CartRepositoryType) => {
     //find cart by customer id
@@ -67,6 +69,26 @@ export const UpdateOrder = async (orderId: number, status: OrderStatus, repo: Or
         //await repo.publishOrderEvent(order, "ORDER_CANCELLED")
     }
     return { message: 'Order updated successfully' }
+}
+
+export const CheckOut = async (
+    orderNumber: number,
+    repo: OrderRepositoryType,
+) => {
+    const order = await repo.findOrderByOrderNumber(orderNumber);
+    if (!order) {
+        throw new Error("Order not found");
+    }
+    const checkoutOrder: InProcessOrder = {
+        id: order.id,
+        orderNumber: order.orderNumber,
+        status: order.status,
+        customerId: order.customerId,
+        amount: Number(order.amount),
+        createdAt: order.createdAt,
+        updatedAt: order.updatedAt,
+    }
+    return checkoutOrder;
 }
 
 export const DeleteOrder = async (orderId: number, repo: OrderRepositoryType) => {

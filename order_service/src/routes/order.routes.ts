@@ -49,7 +49,7 @@ router.post("/orders", async (req: Request, res: Response, next: NextFunction) =
     const user = req.user;
     if (!user) return next(new Error("User not found"));
     const response = await services.CreateOrder(user.id, repo, cartRepo)
-    return res.status(201).json({ message: 'Create cart' })
+    return res.status(201).json({ message: 'Create order successfully' })
 })
 
 router.patch("/orders/:id", async (req: Request, res: Response, next: NextFunction) => {
@@ -66,7 +66,7 @@ router.delete("/orders/:id", async (req: Request, res: Response, next: NextFunct
     if (!user) return next(new Error("User not found"));
     const orderId = parseInt(req.params.id);
     const response = await services.DeleteOrder(orderId, repo);
-    return res.status(201).json({ message: 'Create cart' })
+    return res.status(201).json({ message: 'Delete order successfully' })
 })
 
 router.get("/orders/:id/checkout", async (req: Request, res: Response, next: NextFunction) => {
@@ -74,7 +74,7 @@ router.get("/orders/:id/checkout", async (req: Request, res: Response, next: Nex
     if (!user) return next(new Error("User not found"));
     const orderId = parseInt(req.params.id);
     const response = await services.DeleteOrder(orderId, repo);
-    return res.status(201).json({ message: 'Create cart' })
+    return res.status(200).json(response)
 })
 
 export default router

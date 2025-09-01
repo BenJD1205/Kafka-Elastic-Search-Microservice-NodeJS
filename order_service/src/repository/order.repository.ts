@@ -39,6 +39,17 @@ const findOrder = async (id: number): Promise<OrderWithLineItems | null> => {
     return order as unknown as OrderWithLineItems;
 }
 
+const findOrderByOrderNumber = async (orderNumber: number): Promise<OrderWithLineItems | null> => {
+    const order = await DB.query.orders.findFirst({
+        where: (orders, { eq }) => eq(orders.orderNumber, orderNumber),
+        with: {
+            lineItems: true
+        }
+    })
+    if (!order) throw new Error("Order not found")
+    return order as unknown as OrderWithLineItems;
+}
+
 const updateOrder = async (id: number, status: string): Promise<OrderWithLineItems> => {
     await DB.update(orders).set({
         status: status,
@@ -67,6 +78,7 @@ export const OrderRepository: OrderRepositoryType = {
     createOrder,
     updateOrder,
     findOrder,
+    findOrderByOrderNumber,
     findOrdersByCustomerId,
     deleteOrder,
 };
