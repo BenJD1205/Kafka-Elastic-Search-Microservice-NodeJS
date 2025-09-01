@@ -1,5 +1,5 @@
 import { Response, Request, NextFunction } from 'express';
-import { ValidateUser } from 'src/utils';
+import { ValidateUser } from '../utils';
 
 export const RequestAuthorizer = async (req: Request, res: Response, next: NextFunction) => {
     try {

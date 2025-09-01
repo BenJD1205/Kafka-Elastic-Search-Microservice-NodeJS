@@ -28,15 +28,16 @@ export const CreateOrder = async (userId: number, repo: OrderRepositoryType, car
 
     const orderInput: OrderWithLineItems = {
         orderNumber: orderNumber,
-        txnId: null,
+        txnId: null, //Payment ID to keep track of successful payment status
         status: OrderStatus.PENDING,
         customerId: userId,
         amount: cartTotal.toString(),
         orderItems: orderLineItems,
     }
 
-    // const order = await repo.createOrder(orderInput);
-    // await cartRepo.clearCartData(userId);
+    const order = await repo.createOrder(orderInput);
+    await cartRepo.clearCartData(userId);
+    console.log("Order created", order);
 
     //fire a message to subscription service [catalog service] to update stock
     // await repo.publishOrderEvent(order, "ORDER_CREATED");

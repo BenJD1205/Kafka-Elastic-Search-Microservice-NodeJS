@@ -2,7 +2,7 @@ import express, { Request, Response, NextFunction } from 'express'
 import * as services from '../services/order.service'
 import { MessageBroker } from './../utils';
 import { OrderEvent, OrderStatus } from '../types';
-import { OrderRepository } from 'src/repository/order.repository';
+import { OrderRepository } from 'src/repository';
 import { CartRepository } from 'src/repository';
 
 const router = express.Router()
@@ -62,6 +62,14 @@ router.patch("/orders/:id", async (req: Request, res: Response, next: NextFuncti
 })
 
 router.delete("/orders/:id", async (req: Request, res: Response, next: NextFunction) => {
+    const user = req.user;
+    if (!user) return next(new Error("User not found"));
+    const orderId = parseInt(req.params.id);
+    const response = await services.DeleteOrder(orderId, repo);
+    return res.status(201).json({ message: 'Create cart' })
+})
+
+router.get("/orders/:id/checkout", async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
     if (!user) return next(new Error("User not found"));
     const orderId = parseInt(req.params.id);

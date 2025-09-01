@@ -3,8 +3,7 @@ import compression from 'compression';
 import helmet from 'helmet';
 import cors from 'cors'
 import routes from './routes'
-import { httpLogger, HandleErrorWithLogger, MessageBroker } from './utils';
-import { Consumer, Producer } from 'kafkajs';
+import { httpLogger, HandleErrorWithLogger } from './utils';
 import { InitializeBroker } from './services/broker.service';
 
 export const ExpressApp = async () => {

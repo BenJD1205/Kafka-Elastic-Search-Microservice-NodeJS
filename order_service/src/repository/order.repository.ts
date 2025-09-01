@@ -63,10 +63,10 @@ const findOrdersByCustomerId = async (customerId: number): Promise<OrderWithLine
     return orders as unknown as OrderWithLineItems[];
 }
 
-export {
+export const OrderRepository: OrderRepositoryType = {
     createOrder,
     updateOrder,
     findOrder,
     findOrdersByCustomerId,
     deleteOrder,
-}
+};
